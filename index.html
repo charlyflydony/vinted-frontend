@@ -1,111 +1,192 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Northline Studio</title>
-    <meta
-      name="description"
-      content="Northline Studio builds fast, conversion-focused websites for startups and product teams."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="bg-noise" aria-hidden="true"></div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinted Sniper Pro - Plateforme SaaS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f1f5f9; }
+        [v-cloak] { display: none; }
+        .gradient-text { background: linear-gradient(135deg, #14b8a6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #0d9488, #059669); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
 
-    <header class="site-header">
-      <div class="container nav">
-        <a href="#" class="brand">Northline</a>
-        <nav>
-          <a href="#work">Work</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </div>
+<div id="app" v-cloak class="flex-1 flex flex-col">
+    <!-- Barre de Navigation Global -->
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 cursor-pointer" @click="currentView = 'landing'">
+            <div class="w-9 h-9 gradient-bg rounded-xl flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-teal-500/20">VS</div>
+            <span class="font-extrabold text-white text-lg tracking-wide">VINTED SNIPER <span class="gradient-text">PRO</span></span>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <template v-if="!currentUser">
+                <button @click="currentView = 'login'" class="text-xs font-semibold text-slate-300 hover:text-white px-3 py-2">Connexion</button>
+                <button @click="currentView = 'register'" class="gradient-bg hover:opacity-90 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-md">Essai Gratuit</button>
+            </template>
+            <template v-else>
+                <span class="text-xs text-slate-400">Membre : <strong class="text-white">{{ currentUser.email }}</strong></span>
+                <span :class="currentUser.isVip ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' : 'bg-slate-800 text-slate-400'" class="px-2.5 py-1 rounded-full text-[10px] font-bold border">
+                    {{ currentUser.isVip ? 'VIP PRO' : 'COMPTE GRATUIT' }}
+                </span>
+                <button @click="logout" class="p-2 text-slate-400 hover:text-rose-400" title="Déconnexion"><i class="ph ph-sign-out text-lg"></i></button>
+            </template>
+        </div>
     </header>
 
-    <main>
-      <section class="hero container">
-        <p class="kicker">Design + Engineering Studio</p>
-        <h1>
-          Websites that look sharp,
-          <span>load instantly, and convert.</span>
-        </h1>
-        <p class="lede">
-          We turn rough ideas into memorable web experiences with clear
-          messaging, high-performance frontend architecture, and launch-ready
-          deployment pipelines.
-        </p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Start a project</a>
-          <a href="#work" class="btn btn-ghost">See latest builds</a>
+    <!-- VUE 1 : LANDING PAGE COMMERCIAL (Page d'accueil de vente) -->
+    <main v-if="currentView === 'landing'" class="flex-1 max-w-6xl mx-auto w-full px-6 py-16 space-y-20">
+        <!-- Hero Section -->
+        <div class="text-center space-y-6 max-w-3xl mx-auto">
+            <span class="bg-teal-500/10 border border-teal-500/30 text-teal-400 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider inline-block">
+                ⚡ Le N°1 des Bots de Reselling Vinted
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight">
+                Achetez les meilleures affaires Vinted <span class="gradient-text">avant tout le monde</span>.
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg">
+                Notre robot scanne les articles de marques rares (Stone Island, CP Company, TNF) toutes les 1.5 secondes et vous alerte en temps réel sur votre smartphone.
+            </p>
+            <div class="flex justify-center gap-4 pt-4">
+                <button @click="currentView = 'register'" class="gradient-bg hover:opacity-90 text-slate-950 font-extrabold px-8 py-4 rounded-2xl text-sm transition-all shadow-lg shadow-teal-500/25">
+                    Tester Gratuitement Maintenant 🚀
+                </button>
+            </div>
         </div>
-      </section>
 
-      <section id="work" class="container work">
-        <article class="card reveal">
-          <p class="tag">B2B SaaS</p>
-          <h3>Pulseboard</h3>
-          <p>Lifted trial conversion 31% with a product-led homepage revamp.</p>
-        </article>
-        <article class="card reveal">
-          <p class="tag">Creator Tools</p>
-          <h3>Lumen Studio</h3>
-          <p>
-            Rebuilt marketing pages on modern SSR stack, cutting TTFB in half.
-          </p>
-        </article>
-        <article class="card reveal">
-          <p class="tag">Fintech</p>
-          <h3>Helio Pay</h3>
-          <p>Shipped launch site and docs hub in 10 days, ready for scale.</p>
-        </article>
-      </section>
+        <!-- Offres d'Abonnement (Pricing Table) -->
+        <div class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-white">Tarifs Simples et Rentables</h2>
+                <p class="text-xs text-slate-400 mt-1">Rentabilisez votre abonnement dès votre premier vêtement acheté et revendu.</p>
+            </div>
 
-      <section id="services" class="container services">
-        <h2>What we ship</h2>
-        <div class="service-grid">
-          <div class="service reveal">
-            <h3>Strategy + Messaging</h3>
-            <p>Offer clarity, brand voice, and a structure built to convert.</p>
-          </div>
-          <div class="service reveal">
-            <h3>UI Systems</h3>
-            <p>Reusable, accessible components that keep velocity high.</p>
-          </div>
-          <div class="service reveal">
-            <h3>Frontend Engineering</h3>
-            <p>Fast Core Web Vitals, resilient routing, and clean handoff.</p>
-          </div>
-          <div class="service reveal">
-            <h3>Launch + Optimization</h3>
-            <p>Analytics wiring, SEO baseline, and ongoing iteration support.</p>
-          </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Offre Free -->
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-300">Plan Gratuit</h3>
+                        <p class="text-xs text-slate-500">Pour découvrir la plateforme</p>
+                        <div class="mt-4 text-3xl font-black text-white">0 € <span class="text-xs font-normal text-slate-500">/ mois</span></div>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Vitesse de scan : 30 secondes</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> 2 Modèles suivis maximum</li>
+                        <li class="flex items-center gap-2 text-slate-500"><i class="ph ph-x text-rose-500"></i> Pas de notifications Push mobile</li>
+                        <li class="flex items-center gap-2 text-slate-500"><i class="ph ph-x text-rose-500"></i> Auto-Open désactivé</li>
+                    </ul>
+                    <button @click="currentView = 'register'" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs transition-all">S'inscrire Gratuitement</button>
+                </div>
+
+                <!-- Offre PRO (Payante) -->
+                <div class="bg-slate-900 border-2 border-teal-500 p-8 rounded-3xl space-y-6 relative shadow-2xl shadow-teal-500/10">
+                    <span class="absolute -top-3 right-6 gradient-bg text-slate-950 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">LE PLUS POPULAIRE</span>
+                    <div>
+                        <h3 class="text-lg font-bold text-teal-400">Plan VIP PRO</h3>
+                        <p class="text-xs text-slate-400">Pour les reselleurs ambitieux</p>
+                        <div class="mt-4 text-3xl font-black text-white">19,99 € <span class="text-xs font-normal text-slate-400">/ mois</span></div>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-200">
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Scan ultra-rapide : 1.5 seconde</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Modèles & Marques illimités</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Notifications Push Smartphone & PC</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Auto-Open instantané de l'achat</li>
+                        <li class="flex items-center gap-2"><i class="ph ph-check text-teal-400 font-bold"></i> Tableur de Calcul de Marge Excel</li>
+                    </ul>
+                    <button @click="subscribeVip" class="w-full gradient-bg hover:opacity-90 text-slate-950 font-extrabold py-3 rounded-xl text-xs transition-all shadow-lg shadow-teal-500/20">Devenir Membre VIP ⚡</button>
+                </div>
+            </div>
         </div>
-      </section>
-
-      <section id="contact" class="container contact reveal">
-        <h2>Ready to launch?</h2>
-        <p>
-          Send a short brief and we’ll reply with a scope, timeline, and build
-          plan.
-        </p>
-        <a class="btn btn-primary" href="mailto:hello@northline.studio"
-          >hello@northline.studio</a
-        >
-      </section>
     </main>
 
-    <footer class="container site-footer">
-      <p>© <span id="year"></span> Northline Studio</p>
-    </footer>
+    <!-- VUE 2 : PAGE DE CONNEXION / INSCRIPTION -->
+    <main v-else-if="currentView === 'login' || currentView === 'register'" class="flex-1 flex items-center justify-center p-6">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-md space-y-6 shadow-2xl">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl font-bold text-white">{{ currentView === 'login' ? 'Connexion à votre compte' : 'Créer votre compte Sniper' }}</h2>
+                <p class="text-xs text-slate-400">Accédez immédiatement au scanner Vinted</p>
+            </div>
 
-    <script src="./script.js"></script>
-  </body>
+            <form @submit.prevent="handleAuth" class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-300 block mb-1">Adresse Email</label>
+                    <input v-model="authEmail" type="email" required placeholder="reseller@exemple.com" class="w-full bg-slate-950 border border-slate-750 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-teal-500">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-300 block mb-1">Mot de passe</label>
+                    <input v-model="authPassword" type="password" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-750 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-teal-500">
+                </div>
+                <button type="submit" class="w-full gradient-bg hover:opacity-90 text-slate-950 font-extrabold py-3.5 rounded-xl text-xs transition-all shadow-md">
+                    {{ currentView === 'login' ? 'Se Connecter' : "S'inscrire et Commencer" }}
+                </button>
+            </form>
+
+            <div class="text-center text-xs text-slate-400">
+                <span v-if="currentView === 'login'">Pas encore de compte ? <a href="#" @click.prevent="currentView = 'register'" class="text-teal-400 font-bold hover:underline">Inscrivez-vous</a></span>
+                <span v-else>Déjà un compte ? <a href="#" @click.prevent="currentView = 'login'" class="text-teal-400 font-bold hover:underline">Connectez-vous</a></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- VUE 3 : ESPACE MEMBRE DASHBOARD (Le Sniper) -->
+    <main v-else-if="currentView === 'app'" class="flex-1 flex flex-col p-6 space-y-6">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-white">Espace de Recherche Vinted</h2>
+                <p class="text-xs text-slate-400">Statut du Compte : <span :class="currentUser.isVip ? 'text-teal-400 font-bold' : 'text-slate-400'">{{ currentUser.isVip ? 'VIP Pro Active' : 'Gratuit (30s intervalle)' }}</span></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button v-if="!currentUser.isVip" @click="subscribeVip" class="gradient-bg text-slate-950 font-extrabold px-4 py-2 rounded-xl text-xs">Passez VIP à 19,99€/mois 🚀</button>
+                <a href="http://localhost:8000/vinted_sniper.html" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2">
+                    Ouvrir le Sniper Bot Local <i class="ph ph-arrow-up-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const { createApp } = Vue;
+    createApp({
+        data() {
+            return {
+                currentView: 'landing',
+                authEmail: '',
+                authPassword: '',
+                currentUser: null
+            }
+        },
+        methods: {
+            handleAuth() {
+                if (this.authEmail && this.authPassword) {
+                    this.currentUser = {
+                        email: this.authEmail,
+                        isVip: false
+                    };
+                    this.currentView = 'app';
+                }
+            },
+            subscribeVip() {
+                if (!this.currentUser) {
+                    this.currentView = 'register';
+                    return;
+                }
+                alert("Redirection vers le paiement sécurisé Stripe pour activer l'abonnement VIP (19.99€)...");
+                this.currentUser.isVip = true;
+                this.currentView = 'app';
+            },
+            logout() {
+                this.currentUser = null;
+                this.currentView = 'landing';
+            }
+        }
+    }).mount('#app');
+</script>
+</body>
 </html>
